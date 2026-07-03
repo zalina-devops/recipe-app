@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Рецепты · изысканная коллекция</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500&display=swap" rel="stylesheet" />
+    <style>
+        /* --- все стили без изменений --- */
+        :root {
+            --bg-body: #f3efe9;
+            --bg-app: rgba(245, 240, 234, 0.70);
+            --border-app: rgba(230, 220, 210, 0.5);
+            --text-primary: #1e1814;
+            --text-secondary: #5f5146;
+            --text-muted: #7f6e60;
+            --card-bg: rgba(255, 251, 247, 0.55);
+            --card-border: rgba(230, 220, 210, 0.5);
+            --card-hover-bg: rgba(255, 251, 247, 0.8);
+            --card-hover-border: rgba(210, 196, 184, 0.7);
+            --input-bg: rgba(255, 251, 247, 0.6);
+            --input-border: #dcd0c6;
+            --input-focus: #b09a88;
+            --btn-primary-bg: #2a241e;
+            --btn-primary-text: #f5f0ea;
+            --btn-danger-bg: #b0877a;
+            --btn-danger-text: white;
+            --btn-edit-bg: rgba(42, 36, 30, 0.04);
+            --btn-edit-border: #d6ccc2;
+            --btn-outline-border: #cbbcb0;
+            --modal-bg: rgba(250, 245, 240, 0.85);
+            --modal-border: rgba(255, 251, 247, 0.7);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.04);
+            --image-overlay: #e1d6cc;
+            --empty-bg: rgba(255, 251, 247, 0.2);
+            --empty-border: rgba(210, 196, 184, 0.2);
+            --transition: 0.2s ease;
+            --view-title: #1a1410;
+            --view-meta: #3d322b;
+            --view-section-title: #5a4a3e;
+            --view-text: #2a221c;
+            --view-marker: #8a7a6a;
+            --bg-decor-1: rgba(200, 185, 170, 0.08);
+            --bg-decor-2: rgba(180, 165, 150, 0.06);
+        }
+
+        body.dark {
+            --bg-body: #1a1614;
+            --bg-app: rgba(30, 26, 22, 0.80);
+            --border-app: rgba(60, 52, 46, 0.6);
+            --text-primary: #ece5de;
+            --text-secondary: #b8a99a;
+            --text-muted: #9a8a7a;
+            --card-bg: rgba(40, 34, 30, 0.6);
+            --card-border: rgba(60, 52, 46, 0.5);
+            --card-hover-bg: rgba(50, 44, 38, 0.8);
+            --card-hover-border: rgba(80, 70, 62, 0.7);
+            --input-bg: rgba(40, 34, 30, 0.6);
+            --input-border: #4d443c;
+            --input-focus: #8a7a6a;
+            --btn-primary-bg: #d6c9bc;
+            --btn-primary-text: #1a1614;
+            --btn-danger-bg: #a87a6a;
+            --btn-danger-text: #f5f0ea;
+            --btn-edit-bg: rgba(210, 196, 184, 0.08);
+            --btn-edit-border: #4d443c;
+            --btn-outline-border: #4d443c;
+            --modal-bg: rgba(30, 26, 22, 0.90);
+            --modal-border: rgba(60, 52, 46, 0.6);
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            --image-overlay: #3d342e;
+            --empty-bg: rgba(40, 34, 30, 0.3);
+            --empty-border: rgba(60, 52, 46, 0.3);
+            --view-title: #f0e8e0;
+            --view-meta: #c8b8a8;
+            --view-section-title: #a89888;
+            --view-text: #e0d8d0;
+            --view-marker: #b8a898;
+            --bg-decor-1: rgba(80, 70, 60, 0.08);
+            --bg-decor-2: rgba(60, 50, 40, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-body);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1.5rem;
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.3s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            transition: background 0.3s ease;
+        }
+
+        body::before {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -100px;
+            background: var(--bg-decor-1);
+            filter: blur(80px);
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            left: -100px;
+            background: var(--bg-decor-2);
+            filter: blur(80px);
+        }
+
+        .app {
+            max-width: 1440px;
+            width: 100%;
+            background: var(--bg-app);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            border-radius: 56px;
+            padding: 2.5rem 2.5rem 3rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-app);
+            transition: background 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 16px;
+            border-bottom: 1px solid var(--input-border);
+            padding-bottom: 0.3rem;
+            margin-bottom: 1.2rem;
+        }
+
+        h1 {
+            font-weight: 400;
+            font-size: 2.6rem;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .h1-accent {
+            font-weight: 300;
+            font-size: 0.9rem;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--input-border);
+            border-radius: 40px;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: 0.2s;
+            background: var(--input-bg);
+            backdrop-filter: blur(2px);
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--input-focus);
+            background: var(--card-hover-bg);
+        }
+
+        .subhead {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 2.2rem;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .search-input {
+            background: var(--input-bg);
+            backdrop-filter: blur(2px);
+            border: 1px solid var(--input-border);
+            border-radius: 48px;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            width: 240px;
+            outline: none;
+            transition: 0.2s;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .search-input:focus {
+            border-color: var(--input-focus);
+            background: var(--card-hover-bg);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .filter-select {
+            background: var(--input-bg);
+            backdrop-filter: blur(2px);
+            border: 1px solid var(--input-border);
+            border-radius: 48px;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            outline: none;
+            cursor: pointer;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237f6e60' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            padding-right: 48px;
+        }
+
+        .btn {
+            border: 1px solid var(--input-border);
+            background: var(--input-bg);
+            backdrop-filter: blur(2px);
+            padding: 12px 28px;
+            border-radius: 48px;
+            font-weight: 400;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.02em;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+        }
+
+        .btn-primary {
+            background: var(--btn-primary-bg);
+            border: 1px solid var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .btn-primary:hover {
+            opacity: 0.85;
+            transform: scale(0.98);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--btn-outline-border);
+        }
+
+        .btn-outline:hover {
+            background: var(--card-hover-bg);
+            border-color: var(--input-focus);
+        }
+
+        .btn-danger {
+            background: var(--btn-danger-bg);
+            border: 1px solid var(--btn-danger-bg);
+            color: var(--btn-danger-text);
+        }
+
+        .btn-danger:hover {
+            opacity: 0.85;
+        }
+
+        .btn-edit {
+            background: var(--btn-edit-bg);
+            border: 1px solid var(--btn-edit-border);
+            color: var(--text-primary);
+        }
+
+        .btn-edit:hover {
+            background: var(--card-hover-bg);
+            border-color: var(--input-focus);
+        }
+
+        .btn-generate {
+            background: #8a7a6a;
+            border: 1px solid #8a7a6a;
+            color: white;
+            font-size: 0.75rem;
+            padding: 8px 16px;
+            margin-left: 8px;
+        }
+
+        .btn-generate:hover {
+            background: #7a6a5a;
+            border-color: #7a6a5a;
+            opacity: 0.9;
+        }
+
+        .btn-generate:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .form-group-with-button {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .form-group-with-button input {
+            flex: 1;
+        }
+
+        .form-group-with-button .btn-generate {
+            flex-shrink: 0;
+        }
+
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 32px;
+            margin-top: 28px;
+        }
+
+        .recipe-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 40px;
+            padding: 20px 22px 24px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.02);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            will-change: transform;
+            cursor: pointer;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-4px);
+            background: var(--card-hover-bg);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.02);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 170px;
+            border-radius: 28px;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+            background: var(--image-overlay);
+            pointer-events: none;
+        }
+
+        .card-image svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 28px;
+        }
+
+        .card-image .fallback {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 2px;
+            transition: color 0.3s ease;
+            pointer-events: none;
+            letter-spacing: -0.02em;
+        }
+
+        .card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin: 6px 0 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+            padding-bottom: 10px;
+            letter-spacing: 0.02em;
+            pointer-events: none;
+        }
+
+        .card-category {
+            background: rgba(42, 36, 30, 0.04);
+            padding: 2px 18px;
+            border-radius: 40px;
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+        }
+
+        .card-time {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            flex: 1;
+            margin-bottom: 18px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            transition: color 0.3s ease;
+            pointer-events: none;
+            letter-spacing: -0.01em;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+            pointer-events: auto;
+        }
+
+        .card-actions .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 10px 12px;
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            background: var(--input-bg);
+            border-color: var(--input-border);
+            font-weight: 400;
+        }
+
+        .card-actions .btn-danger {
+            background: var(--btn-danger-bg);
+            border-color: var(--btn-danger-bg);
+            color: var(--btn-danger-text);
+        }
+
+        .view-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 24, 20, 0.25);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s ease;
+        }
+
+        .view-modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .view-modal {
+            background: var(--modal-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border-radius: 56px;
+            padding: 2.4rem 2.6rem 2.6rem;
+            max-width: 680px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--modal-border);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.08);
+            transform: scale(0.96) translateY(16px);
+            transition: 0.3s ease;
+        }
+
+        .view-modal-overlay.active .view-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .view-modal::-webkit-scrollbar {
+            width: 4px;
+        }
+        .view-modal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .view-modal::-webkit-scrollbar-thumb {
+            background: var(--input-border);
+            border-radius: 4px;
+        }
+
+        .view-modal .view-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 32px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: var(--image-overlay);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .view-modal .view-image svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .view-modal .view-title {
+            font-size: 2.2rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            color: var(--view-title);
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+            transition: color 0.3s ease;
+        }
+
+        .view-modal .view-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            color: var(--view-meta);
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--input-border);
+            padding-bottom: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .view-modal .view-meta span {
+            background: rgba(42, 36, 30, 0.04);
+            padding: 4px 16px;
+            border-radius: 40px;
+        }
+
+        .view-modal .view-section {
+            margin-bottom: 20px;
+        }
+
+        .view-modal .view-section h3 {
+            font-size: 0.8rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--view-section-title);
+            margin-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .view-modal .view-section p,
+        .view-modal .view-section li {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--view-text);
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
+
+        .view-modal .view-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .view-modal .view-section ul li {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .view-modal .view-section ul li::before {
+            content: "• ";
+            color: var(--view-marker);
+            transition: color 0.3s ease;
+        }
+
+        .view-modal .view-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 18px;
+            border-top: 1px solid var(--input-border);
+        }
+
+        .view-modal .view-actions .btn {
+            flex: 1;
+            justify-content: center;
+            font-weight: 400;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 24, 20, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 24px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal {
+            background: var(--modal-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border-radius: 56px;
+            padding: 2.4rem 2.6rem 2.6rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 1px solid var(--modal-border);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.04);
+            transform: scale(0.96) translateY(16px);
+            transition: 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .modal::-webkit-scrollbar-thumb {
+            background: var(--input-border);
+            border-radius: 4px;
+        }
+
+        .modal h2 {
+            font-weight: 500;
+            font-size: 2rem;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            margin-bottom: 1.6rem;
+            letter-spacing: -0.02em;
+            border-bottom: 1px solid var(--input-border);
+            padding-bottom: 0.4rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 14px 20px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 40px;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            outline: none;
+            transition: 0.15s;
+            color: var(--text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+            border-radius: 28px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--input-focus);
+            background: var(--card-hover-bg);
+            box-shadow: 0 0 0 3px rgba(42, 36, 30, 0.02);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: flex-end;
+            margin-top: 28px;
+        }
+
+        .form-actions .btn {
+            min-width: 120px;
+            justify-content: center;
+            padding: 12px 28px;
+            font-weight: 400;
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 0;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            background: var(--empty-bg);
+            border-radius: 60px;
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--empty-border);
+            letter-spacing: 0.02em;
+        }
+
+        .generating-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 28px;
+            border-radius: 16px;
+            background: var(--modal-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-app);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: 0.4s ease;
+            max-width: 400px;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification.error {
+            border-left: 4px solid #b0877a;
+        }
+
+        .notification.success {
+            border-left: 4px solid #6aaa50;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .app {
+                padding: 1.5rem 1rem;
+            }
+            .subhead {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .controls {
+                flex-wrap: wrap;
+            }
+            .search-input {
+                width: 100%;
+            }
+            .modal {
+                padding: 1.8rem;
+            }
+            .view-modal {
+                padding: 1.8rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .header-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .view-modal .view-title {
+                font-size: 1.8rem;
+            }
+            .form-group-with-button {
+                flex-direction: column;
+            }
+            .form-group-with-button .btn-generate {
+                width: 100%;
+                justify-content: center;
+            }
+            .notification {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header>
+            <div class="header-row">
+                <h1>
+                    Рецепты
+                    <span class="h1-accent">изысканная коллекция</span>
+                </h1>
+                <button class="theme-toggle" id="themeToggle">Сменить тему</button>
+            </div>
+            <div class="subhead">
+                <div class="controls">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Поиск по названию" />
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="all">Все категории</option>
+                        <option value="Завтрак">Завтрак</option>
+                        <option value="Обед">Обед</option>
+                        <option value="Ужин">Ужин</option>
+                        <option value="Десерт">Десерт</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" id="addRecipeBtn">+ Добавить рецепт</button>
+            </div>
+        </header>
+
+        <div class="recipe-grid" id="recipeGrid"></div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <div class="view-modal-overlay" id="viewModalOverlay">
+        <div class="view-modal">
+            <div class="view-image" id="viewImage"></div>
+            <div class="view-title" id="viewTitle"></div>
+            <div class="view-meta" id="viewMeta"></div>
+            <div class="view-section">
+                <h3>Ингредиенты</h3>
+                <div id="viewIngredients"></div>
+            </div>
+            <div class="view-section">
+                <h3>Инструкция приготовления</h3>
+                <div id="viewInstructions"></div>
+            </div>
+            <div class="view-actions">
+                <button class="btn btn-outline" id="closeViewBtn">Закрыть</button>
+                <button class="btn btn-edit" id="editFromViewBtn">Редактировать</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 id="modalTitle">Новый рецепт</h2>
+            <form id="recipeForm">
+                <div class="form-group">
+                    <label for="recipeName">Название блюда</label>
+                    <div class="form-group-with-button">
+                        <input type="text" id="recipeName" placeholder="Например, Паста карбонара" required />
+                        <button type="button" class="btn btn-generate" id="generateBtn">✨ Сгенерировать</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="recipeIngredients">Ингредиенты</label>
+                    <textarea id="recipeIngredients" placeholder="Спагетти, яйца, панчетта, пармезан..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="recipeInstructions">Инструкция (пошагово)</label>
+                    <textarea id="recipeInstructions" placeholder="1. Отварить спагетти...&#10;2. Обжарить панчетту..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="recipeCategory">Категория</label>
+                    <select id="recipeCategory">
+                        <option value="Завтрак">Завтрак</option>
+                        <option value="Обед" selected>Обед</option>
+                        <option value="Ужин">Ужин</option>
+                        <option value="Десерт">Десерт</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="recipeTime">Время приготовления (мин)</label>
+                    <input type="number" id="recipeTime" placeholder="30" min="1" value="30" required />
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" id="cancelModalBtn">Отмена</button>
+                    <button type="submit" class="btn btn-primary" id="saveRecipeBtn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ========================================
+            //   МОНСТРУОЗНАЯ БАЗА РЕЦЕПТОВ (200+)
+            // ========================================
+            const RECIPE_DB = {
+                // === СУПЫ ===
+                'борщ': {
+                    ingredients: 'Свекла, капуста, картофель, морковь, лук, томатная паста, чеснок, зелень, соль, перец, уксус, лавровый лист',
+                    instructions: '1. Нарезать свеклу соломкой и тушить с томатной пастой и уксусом.\n2. Нарезать картофель кубиками, капусту соломкой.\n3. В кипящую воду добавить картофель, через 10 минут — капусту.\n4. Обжарить лук и морковь, добавить к супу.\n5. Добавить тушеную свеклу, лавровый лист, соль, перец.\n6. Варить до готовности, добавить чеснок и зелень.\n7. Подавать со сметаной.',
+                    category: 'Обед',
+                    time: 50
+                },
+                'щи': {
+                    ingredients: 'Капуста, картофель, морковь, лук, томатная паста, зелень, соль, перец, лавровый лист',
+                    instructions: '1. Нарезать капусту, картофель кубиками.\n2. В кипящую воду добавить картофель, через 10 минут — капусту.\n3. Обжарить лук и морковь с томатной пастой.\n4. Добавить зажарку в суп, посолить, поперчить.\n5. Варить до готовности, добавить зелень и лавровый лист.',
+                    category: 'Обед',
+                    time: 40
+                },
+                'солянка': {
+                    ingredients: 'Колбасные изделия, говядина, лук, огурцы соленые, томатная паста, оливки, лимон, зелень, соль, перец',
+                    instructions: '1. Обжарить говядину с луком.\n2. Добавить нарезанные соленые огурцы и томатную пасту.\n3. Залить водой, добавить нарезанные колбасные изделия.\n4. Варить 30 минут.\n5. Добавить оливки, зелень, соль, перец.\n6. Подавать с долькой лимона.',
+                    category: 'Обед',
+                    time: 45
+                },
+                'уха': {
+                    ingredients: 'Рыба (лосось/судак), картофель, лук, морковь, зелень, соль, перец, лавровый лист',
+                    instructions: '1. Очистить рыбу, нарезать на куски.\n2. В кипящую воду добавить нарезанный картофель.\n3. Через 10 минут добавить рыбу, лук, морковь.\n4. Варить 20 минут до готовности рыбы.\n5. Добавить зелень, соль, перец, лавровый лист.\n6. Подавать горячей.',
+                    category: 'Обед',
+                    time: 35
+                },
+                'грибной суп': {
+                    ingredients: 'Грибы (свежие или сушеные), картофель, лук, морковь, сливки, зелень, соль, перец',
+                    instructions: '1. Обжарить грибы с луком до золотистости.\n2. Добавить нарезанный картофель и морковь.\n3. Залить водой и варить 20 минут.\n4. Измельчить блендером до однородности (по желанию).\n5. Добавить сливки, прогреть.\n6. Подавать с зеленью и гренками.',
+                    category: 'Обед',
+                    time: 30
+                },
+                'куриный суп': {
+                    ingredients: 'Куриная грудка, картофель, морковь, лук, лапша, зелень, соль, перец',
+                    instructions: '1. Отварить куриную грудку в воде до готовности.\n2. Добавить нарезанный кубиками картофель.\n3. Обжарить лук и морковь, добавить в суп.\n4. Через 15 минут добавить лапшу.\n5. Варить 5-7 минут до готовности лапши.\n6. Добавить зелень, соль, перец по вкусу.',
+                    category: 'Обед',
+                    time: 35
+                },
+                'томатный суп': {
+                    ingredients: 'Спелые помидоры, лук, чеснок, оливковое масло, базилик, тимьян, соль, перец, сливки (опционально)',
+                    instructions: '1. Обжарить мелко нарезанный лук и чеснок на оливковом масле.\n2. Добавить нарезанные помидоры и тушить 15 минут.\n3. Добавить базилик, тимьян, соль и перец.\n4. Проварить еще 10 минут, затем измельчить блендером до однородности.\n5. При желании добавить сливки и прогреть.\n6. Подавать с гренками и свежим базиликом.',
+                    category: 'Обед',
+                    time: 30
+                },
+                'овощной суп': {
+                    ingredients: 'Картофель, морковь, лук, кабачок, цветная капуста, зелень, соль, перец, оливковое масло',
+                    instructions: '1. Нарезать все овощи кубиками.\n2. Обжарить лук и морковь на оливковом масле.\n3. Добавить картофель, кабачок, цветную капусту.\n4. Залить водой, варить 20-25 минут.\n5. Добавить зелень, соль, перец по вкусу.',
+                    category: 'Обед',
+                    time: 25
+                },
+                'харчо': {
+                    ingredients: 'Говядина, рис, лук, чеснок, томатная паста, грецкие орехи, зелень, соль, перец, хмели-сунели',
+                    instructions: '1. Отварить говядину до готовности.\n2. Добавить промытый рис и варить 15 минут.\n3. Обжарить лук с томатной пастой, добавить в суп.\n4. Добавить измельченные орехи, чеснок, специи.\n5. Варить 10 минут, добавить зелень.',
+                    category: 'Обед',
+                    time: 50
+                },
+                'гаспачо': {
+                    ingredients: 'Помидоры, огурец, болгарский перец, чеснок, оливковое масло, уксус, соль, перец',
+                    instructions: '1. Все овощи нарезать крупно.\n2. Измельчить блендером до однородности.\n3. Добавить оливковое масло, уксус, соль, перец.\n4. Охладить в холодильнике 2 часа.\n5. Подавать с гренками и зеленью.',
+                    category: 'Обед',
+                    time: 15
+                },
+                'минстроне': {
+                    ingredients: 'Паста, фасоль, картофель, морковь, лук, сельдерей, томатная паста, базилик, соль, перец',
+                    instructions: '1. Обжарить лук, морковь и сельдерей.\n2. Добавить картофель, фасоль, томатную пасту.\n3. Залить водой, варить 20 минут.\n4. Добавить пасту и варить до готовности.\n5. Посыпать базиликом.',
+                    category: 'Обед',
+                    time: 30
+                },
+                'тыквенный суп': {
+                    ingredients: 'Тыква, лук, чеснок, сливки, соль, перец, тыквенные семечки',
+                    instructions: '1. Обжарить лук и чеснок.\n2. Добавить нарезанную тыкву, залить водой.\n3. Варить до мягкости, измельчить блендером.\n4. Добавить сливки, прогреть.\n5. Подавать с тыквенными семечками.',
+                    category: 'Обед',
+                    time: 25
+                },
+                'фо-бо': {
+                    ingredients: 'Говяжий бульон, рисовая лапша, говядина, лук, имбирь, анис, корица, зелень, перец чили',
+                    instructions: '1. В бульон добавить обжаренные лук и имбирь.\n2. Добавить анис и корицу, варить 20 минут.\n3. Отварить рисовую лапшу.\n4. В миски положить лапшу, сверху — нарезанную говядину.\n5. Залить горячим бульоном, добавить зелень и перец.',
+                    category: 'Обед',
+                    time: 30
+                },
+                'мисо': {
+                    ingredients: 'Мисо-паста, тофу, водоросли вакаме, зеленый лук, бульон даши',
+                    instructions: '1. Нагреть бульон даши.\n2. Растворить мисо-пасту в небольшом количестве бульона.\n3. Добавить нарезанный тофу и водоросли.\n4. Прогреть, но не кипятить.\n5. Подавать с зеленым луком.',
+                    category: 'Обед',
+                    time: 10
+                },
+                'чечевичный суп': {
+                    ingredients: 'Чечевица, морковь, лук, сельдерей, томатная паста, зелень, соль, перец',
+                    instructions: '1. Обжарить лук, морковь и сельдерей.\n2. Добавить чечевицу и томатную пасту.\n3. Залить водой и варить 25 минут.\n4. Добавить соль, перец, зелень.',
+                    category: 'Обед',
+                    time: 30
+                },
+                'гороховый суп': {
+                    ingredients: 'Горох сухой, картофель, лук, морковь, копчености, зелень, соль, перец',
+                    instructions: '1. Замочить горох на ночь.\n2. Варить горох до готовности.\n3. Добавить картофель, лук и морковь.\n4. Добавить копчености, варить 20 минут.\n5. Добавить зелень, соль, перец.',
+                    category: 'Обед',
+                    time: 50
+                },
+                'сырный суп': {
+                    ingredients: 'Бульон, картофель, морковь, лук, плавленый сыр, сливки, зелень, соль, перец',
+                    instructions: '1. В бульон добавить картофель, морковь и лук.\n2. Варить до готовности овощей.\n3. Добавить плавленый сыр и сливки, прогреть.\n4. Добавить зелень, соль, перец.',
+                    category: 'Обед',
+                    time: 25
+                },
+                'луковый суп': {
+                    ingredients: 'Лук, сливочное масло, бульон, белое вино, сыр грюйер, багет, соль, перец',
+                    instructions: '1. Нарезать лук полукольцами и обжарить на масле до карамелизации.\n2. Добавить вино, выпарить.\n3. Залить бульоном, варить 15 минут.\n4. Подавать с гренками и тертым сыром.',
+                    category: 'Обед',
+                    time: 30
+                },
+                'окрошка': {
+                    ingredients: 'Квас, картофель, яйца, огурец, редис, зелень, сметана, горчица, соль',
+                    instructions: '1. Отварить и нарезать картофель и яйца.\n2. Нарезать огурец, редис и зелень.\n3. Смешать все ингредиенты в миске.\n4. Залить квасом, добавить сметану и горчицу.\n5. Посолить по вкусу.',
+                    category: 'Обед',
+                    time: 15
+                },
+                'свекольник': {
+                    ingredients: 'Свекла, кефир/сметана, огурец, зелень, яйца, соль, перец',
+                    instructions: '1. Отварить и нарезать свеклу.\n2. Нарезать огурец, зелень, яйца.\n3. Смешать все ингредиенты.\n4. Залить кефиром, посолить, поперчить.\n5. Подавать холодным.',
+                    category: 'Обед',
+                    time: 20
+                },
+
+                // === ВТОРЫЕ БЛЮДА (МЯСО) ===
+                'плов': {
+                    ingredients: 'Рис, баранина/говядина, морковь, лук, чеснок, зира, барбарис, соль, перец, растительное масло',
+                    instructions: '1. Мясо нарезать кубиками, обжарить на масле до золотистости.\n2. Добавить нарезанный лук, обжарить до прозрачности.\n3. Добавить морковь соломкой, обжарить 5 минут.\n4. Залить водой, довести до кипения, добавить специи.\n5. Добавить промытый рис, разровнять, залить водой на 1 см выше риса.\n6. Варить на медленном огне 20 минут до готовности риса.\n7. Добавить чеснок, дать настояться 15 минут.',
+                    category: 'Обед',
+                    time: 60
+                },
+                'бефстроганов': {
+                    ingredients: 'Говядина, лук, сметана, томатная паста, мука, соль, перец, растительное масло',
+                    instructions: '1. Нарезать говядину тонкими полосками.\n2. Обжарить на масле до румяности.\n3. Добавить лук, обжарить до золотистости.\n4. Добавить муку, перемешать.\n5. Добавить сметану и томатную пасту, тушить 15 минут.\n6. Добавить соль, перец по вкусу.',
+                    category: 'Ужин',
+                    time: 30
+                },
+                'гуляш': {
+                    ingredients: 'Говядина, лук, болгарский перец, томатная паста, паприка, соль, перец, растительное масло',
+                    instructions: '1. Нарезать мясо кубиками, обжарить.\n2. Добавить лук, обжарить.\n3. Добавить перец, томатную пасту, паприку.\n4. Залить водой, тушить 40 минут.\n5. Добавить соль, перец по вкусу.',
+                    category: 'Ужин',
+                    time: 50
+                },
+                'котлеты по-киевски': {
+                    ingredients: 'Куриное филе, сливочное масло, зелень, яйца, панировочные сухари, соль, перец',
+                    instructions: '1. Отбить куриное филе, посолить, поперчить.\n2. Внутрь завернуть кусочек сливочного масла с зеленью.\n3. Обвалять в муке, яйце и сухарях.\n4. Обжарить во фритюре до золотистого цвета.\n5. Довести до готовности в духовке 10 минут при 180°C.',
+                    category: 'Ужин',
+                    time: 35
+                },
+                'шницель': {
+                    ingredients: 'Свинина/курица, яйца, панировочные сухари, соль, перец, растительное масло',
+                    instructions: '1. Отбить мясо тонким слоем.\n2. Посолить, поперчить.\n3. Обвалять в муке, яйце и сухарях.\n4. Обжарить на масле до золотистой корочки с двух сторон.\n5. Подавать с картофелем или салатом.',
+                    category: 'Ужин',
+                    time: 20
+                },
+                'шашлык': {
+                    ingredients: 'Свинина/баранина, лук, уксус, соль, перец, специи',
+                    instructions: '1. Нарезать мясо кусками.\n2. Лук нарезать кольцами.\n3. Смешать мясо с луком, солью, перцем, специями.\n4. Оставить мариноваться на 2-3 часа.\n5. Нанизать на шампуры и жарить на мангале до готовности.',
+                    category: 'Ужин',
+                    time: 40
+                },
+                'печень по-строгановски': {
+                    ingredients: 'Печень, лук, сметана, мука, соль, перец, растительное масло',
+                    instructions: '1. Нарезать печень тонкими полосками.\n2. Обжарить на масле до румяности.\n3. Добавить лук, обжарить до золотистости.\n4. Добавить муку, перемешать.\n5. Добавить сметану, тушить 10 минут.\n6. Посолить, поперчить по вкусу.',
+                    category: 'Ужин',
+                    time: 25
+                },
+
+                // === РЫБА ===
+                'лосось на гриле': {
+                    ingredients: 'Филе лосося, лимон, соль, перец, оливковое масло, розмарин',
+                    instructions: '1. Посолить и поперчить филе лосося.\n2. Сбрызнуть оливковым маслом.\n3. Обжарить на гриле или сковороде по 4-5 минут с каждой стороны.\n4. Подавать с долькой лимона и розмарином.',
+                    category: 'Ужин',
+                    time: 15
+                },
+                'семга запеченная': {
+                    ingredients: 'Семга, лимон, соль, перец, оливковое масло, зелень',
+                    instructions: '1. Филе семги посолить, поперчить.\n2. Сбрызнуть маслом и лимоном.\n3. Выложить на пергамент, запекать при 200°C 15 минут.\n4. Подавать с зеленью.',
+                    category: 'Ужин',
+                    time: 20
+                },
+                'треска в кляре': {
+                    ingredients: 'Треска, мука, яйца, молоко, соль, перец, растительное масло',
+                    instructions: '1. Филе трески нарезать порционными кусками.\n2. Приготовить кляр из муки, яиц и молока.\n3. Обмакнуть рыбу в кляр и обжарить на масле до золотистого цвета.\n4. Подавать с соусом.',
+                    category: 'Ужин',
+                    time: 20
+                },
+                'окунь жареный': {
+                    ingredients: 'Окунь, мука, соль, перец, растительное масло, лимон',
+                    instructions: '1. Окуня вымыть, обсушить.\n2. Обвалять в муке с солью и перцем.\n3. Обжарить на масле с двух сторон до золотистой корочки.\n4. Подавать с лимоном.',
+                    category: 'Ужин',
+                    time: 15
+                },
+
+                // === ПАСТА ===
+                'паста карбонара': {
+                    ingredients: 'Спагетти, яйца, панчетта, пармезан, чеснок, оливковое масло, соль, перец',
+                    instructions: '1. Отварить спагетти в подсоленной воде до состояния al dente.\n2. Обжарить панчетту с чесноком до золотистости.\n3. В отдельной миске взбить яйца с тертым пармезаном.\n4. Слить пасту, сохранив немного воды.\n5. Смешать горячую пасту с панчеттой, добавить яичную смесь и быстро перемешать.\n6. При необходимости добавить немного воды от пасты для кремовой текстуры.\n7. Подавать с дополнительной порцией пармезана и черным перцем.',
+                    category: 'Ужин',
+                    time: 20
+                },
+                'паста болоньезе': {
+                    ingredients: 'Спагетти, говяжий фарш, лук, морковь, сельдерей, томатная паста, красное вино, бульон, оливковое масло, соль, перец, пармезан',
+                    instructions: '1. Обжарить лук, морковь и сельдерей на оливковом масле.\n2. Добавить фарш и жарить до румяности.\n3. Влить вино и выпарить алкоголь.\n4. Добавить томатную пасту и бульон, тушить на медленном огне 1-2 часа.\n5. Отварить спагетти до al dente.\n6. Смешать пасту с соусом, подавать с пармезаном.',
+                    category: 'Ужин',
+                    time: 40
+                },
+                'паста альфредо': {
+                    ingredients: 'Феттуччине, сливки, сливочное масло, пармезан, чеснок, соль, перец',
+                    instructions: '1. Отварить феттуччине до al dente.\n2. В сковороде растопить масло, добавить чеснок.\n3. Влить сливки, добавить пармезан.\n4. Прогреть до загустения.\n5. Смешать соус с пастой.\n6. Подавать с дополнительным пармезаном.',
+                    category: 'Ужин',
+                    time: 15
+                },
+                'паста песто': {
+                    ingredients: 'Паста, базилик, чеснок, кедровые орехи, пармезан, оливковое масло, соль',
+                    instructions: '1. Приготовить песто: измельчить базилик, чеснок, орехи и пармезан с маслом.\n2. Отварить пасту до al dente.\n3. Смешать пасту с песто.\n4. Подавать с тертым пармезаном.',
+                    category: 'Ужин',
+                    time: 15
+                },
+                'ризотто': {
+                    ingredients: 'Рис арборио, бульон, лук, чеснок, белое вино, сливочное масло, пармезан, соль, перец',
+                    instructions: '1. Обжарить лук и чеснок на масле.\n2. Добавить рис и обжарить до прозрачности.\n3. Влить вино, выпарить.\n4. Постепенно добавлять бульон, помешивая, до готовности риса.\n5. Добавить масло и пармезан, перемешать.',
+                    category: 'Ужин',
+                    time: 25
+                },
+                'лазанья': {
+                    ingredients: 'Листы для лазаньи, фарш, томатный соус, бешамель, сыр моцарелла, пармезан, соль, перец',
+                    instructions: '1. Обжарить фарш с томатным соусом.\n2. Приготовить соус бешамель.\n3. В форму выложить слои: соус, листы, бешамель, фарш.\n4. Повторить 3-4 раза.\n5. Сверху посыпать сыром.\n6. Запекать при 180°C 40 минут.',
+                    category: 'Ужин',
+                    time: 55
+                },
+
+                // === КАРТОФЕЛЬ ===
+                'картофель по-деревенски': {
+                    ingredients: 'Картофель, растительное масло, чеснок, соль, перец, паприка, зелень',
+                    instructions: '1. Картофель тщательно вымыть, нарезать дольками вместе с кожурой.\n2. В миске смешать масло, измельченный чеснок, соль, перец и паприку.\n3. Добавить картофель, перемешать, чтобы каждый кусочек покрылся маслом.\n4. Выложить картофель на противень, застеленный пергаментом.\n5. Запекать при 200°C 30-35 минут до золотистой корочки.\n6. Подавать горячим, посыпав свежей зеленью.',
+                    category: 'Обед',
+                    time: 40
+                },
+                'картофельное пюре': {
+                    ingredients: 'Картофель, сливочное масло, молоко, соль, перец',
+                    instructions: '1. Картофель очистить и отварить в подсоленной воде.\n2. Слить воду, добавить масло и молоко.\n3. Измельчить пюре до однородности.\n4. Посолить, поперчить по вкусу.',
+                    category: 'Обед',
+                    time: 25
+                },
+                'картошка фри': {
+                    ingredients: 'Картофель, растительное масло, соль, перец',
+                    instructions: '1. Картофель очистить и нарезать брусочками.\n2. Промыть и обсушить.\n3. Обжарить во фритюре до золотистого цвета.\n4. Посолить, поперчить по вкусу.',
+                    category: 'Обед',
+                    time: 20
+                },
+                'жареная картошка': {
+                    ingredients: 'Картофель, лук, растительное масло, соль, перец, зелень',
+                    instructions: '1. Картофель очистить и нарезать кружочками.\n2. Лук нарезать полукольцами.\n3. Обжарить картофель на масле до румяности.\n4. Добавить лук, жарить до готовности.\n5. Посолить, поперчить, посыпать зеленью.',
+                    category: 'Обед',
+                    time: 25
+                },
+                'запеченный картофель': {
+                    ingredients: 'Картофель, соль, перец, растительное масло, зелень',
+                    instructions: '1. Картофель вымыть и сделать проколы вилкой.\n2. Сбрызнуть маслом, посолить, поперчить.\n3. Запекать при 200°C 45-50 минут.\n4. Подавать с зеленью.',
+                    category: 'Обед',
+                    time: 50
+                },
+                'драники': {
+                    ingredients: 'Картофель, лук, яйца, мука, соль, перец, растительное масло',
+                    instructions: '1. Картофель и лук натереть на терке.\n2. Добавить яйца, муку, соль, перец.\n3. Перемешать.\n4. Жарить на масле с двух сторон до золотистого цвета.',
+                    category: 'Обед',
+                    time: 20
+                },
+                'зразы картофельные': {
+                    ingredients: 'Картофель, яйца, мука, фарш, лук, соль, перец, растительное масло',
+                    instructions: '1. Отварить картофель, сделать пюре.\n2. Добавить яйца и муку.\n3. Обжарить фарш с луком.\n4. Из картофельной массы сделать лепешки, положить начинку, защипнуть.\n5. Обжарить на масле до золотистости.',
+                    category: 'Обед',
+                    time: 35
+                },
+                'оладьи картофельные': {
+                    ingredients: 'Картофель, яйца, мука, соль, перец, растительное масло',
+                    instructions: '1. Картофель натереть на терке.\n2. Добавить яйца, муку, соль, перец.\n3. Перемешать.\n4. Жарить на масле с двух сторон до золотистого цвета.',
+                    category: 'Завтрак',
+                    time: 15
+                },
+
+                // === САЛАТЫ ===
+                'цезарь': {
+                    ingredients: 'Куриная грудка, листья салата романо, пармезан, сухарики, чеснок, яйцо, оливковое масло, лимон, анчоусы, горчица',
+                    instructions: '1. Обжарить куриную грудку до готовности, нарезать полосками.\n2. Приготовить соус: смешать желток, горчицу, лимонный сок, анчоусы и чеснок.\n3. Постепенно добавлять оливковое масло до получения эмульсии.\n4. В большой миске смешать листья салата с соусом.\n5. Добавить курицу, сухарики и натертый пармезан.\n6. Аккуратно перемешать и подавать сразу.',
+                    category: 'Обед',
+                    time: 20
+                },
+                'греческий салат': {
+                    ingredients: 'Помидоры, огурец, болгарский перец, красный лук, маслины, фета, оливковое масло, лимон, соль, перец, орегано',
+                    instructions: '1. Нарезать помидоры, огурцы, перец и лук.\n2. Добавить маслины.\n3. Добавить нарезанную кубиками фету.\n4. Заправить оливковым маслом, лимоном, солью, перцем и орегано.\n5. Аккуратно перемешать.',
+                    category: 'Обед',
+                    time: 10
+                },
+                'оливье': {
+                    ingredients: 'Картофель, морковь, яйца, колбаса/курица, огурцы соленые, горошек, майонез, соль, перец',
+                    instructions: '1. Отварить картофель, морковь и яйца.\n2. Нарезать все ингредиенты кубиками.\n3. Добавить горошек.\n4. Заправить майонезом, посолить, поперчить.',
+                    category: 'Обед',
+                    time: 20
+                },
+                'селедка под шубой': {
+                    ingredients: 'Сельдь соленая, картофель, морковь, свекла, яйца, лук, майонез',
+                    instructions: '1. Отварить картофель, морковь, свеклу и яйца.\n2. Натереть на терке.\n3. Выкладывать слоями: картофель, сельдь, лук, морковь, яйца, свекла.\n4. Каждый слой промазывать майонезом.\n5. Дать настояться 4-6 часов.',
+                    category: 'Обед',
+                    time: 30
+                },
+                'мимоза': {
+                    ingredients: 'Консервы рыбные, картофель, морковь, яйца, лук, майонез',
+                    instructions: '1. Отварить картофель, морковь и яйца.\n2. Размять рыбу вилкой.\n3. Выкладывать слоями: рыба, лук, картофель, морковь, яйца.\n4. Каждый слой промазывать майонезом.\n5. Дать настояться 2-3 часа.',
+                    category: 'Обед',
+                    time: 25
+                },
+                'винегрет': {
+                    ingredients: 'Свекла, картофель, морковь, огурцы соленые, лук, горошек, масло растительное, соль',
+                    instructions: '1. Отварить свеклу, картофель и морковь.\n2. Нарезать кубиками все ингредиенты.\n3. Добавить горошек.\n4. Заправить маслом, посолить.',
+                    category: 'Обед',
+                    time: 20
+                },
+                'капрезе': {
+                    ingredients: 'Помидоры, моцарелла, базилик, оливковое масло, бальзамический уксус, соль, перец',
+                    instructions: '1. Нарезать помидоры и моцареллу кружками.\n2. Выложить слоями, чередуя с листьями базилика.\n3. Сбрызнуть маслом и уксусом.\n4. Посолить, поперчить по вкусу.',
+                    category: 'Обед',
+                    time: 5
+                },
+                'нисуаз': {
+                    ingredients: 'Тунец, яйца, помидоры, фасоль, салат, оливки, анчоусы, оливковое масло, лимон',
+                    instructions: '1. Отварить яйца и фасоль.\n2. Нарезать помидоры.\n3. Выложить на тарелку салат.\n4. Добавить рыбу, яйца, фасоль, оливки, анчоусы.\n5. Заправить маслом и лимоном.',
+                    category: 'Обед',
+                    time: 15
+                },
+
+                // === ВЫПЕЧКА ===
+                'синнабон': {
+                    ingredients: 'Мука, молоко, сливочное масло, сахар, дрожжи, яйцо, корица, сливочный сыр, сахарная пудра',
+                    instructions: '1. В теплом молоке растворить дрожжи и сахар, оставить на 10 минут.\n2. Добавить яйцо, растопленное масло, муку и соль, замесить тесто.\n3. Оставить тесто в теплом месте на 1 час для подъема.\n4. Раскатать тесто в прямоугольник, смазать растопленным маслом.\n5. Посыпать корицей и сахаром, свернуть рулетом.\n6. Нарезать на кусочки толщиной 3 см.\n7. Выложить в форму, оставить на 30 минут для подъема.\n8. Выпекать при 180°C 20-25 минут до золотистого цвета.\n9. Смешать сливочный сыр с сахарной пудрой, смазать булочки.',
+                    category: 'Завтрак',
+                    time: 50
+                },
+                'пирог яблочный': {
+                    ingredients: 'Мука, сливочное масло, сахар, яйца, яблоки, корица, разрыхлитель, ваниль',
+                    instructions: '1. Смешать муку с разрыхлителем.\n2. Взбить масло с сахаром и яйцами.\n3. Добавить муку, перемешать.\n4. Нарезать яблоки ломтиками, добавить в тесто.\n5. Выложить в форму, посыпать корицей.\n6. Выпекать при 180°C 40-45 минут.',
+                    category: 'Десерт',
+                    time: 50
+                },
+                'шарлотка': {
+                    ingredients: 'Яйца, сахар, мука, яблоки, корица, разрыхлитель, ваниль',
+                    instructions: '1. Взбить яйца с сахаром до пышности.\n2. Добавить муку и разрыхлитель.\n3. Нарезать яблоки ломтиками.\n4. Выложить яблоки в форму, залить тестом.\n5. Посыпать корицей.\n6. Выпекать при 180°C 30-35 минут.',
+                    category: 'Десерт',
+                    time: 40
+                },
+                'кекс': {
+                    ingredients: 'Мука, сливочное масло, сахар, яйца, изюм, ваниль, разрыхлитель',
+                    instructions: '1. Взбить масло с сахаром до кремообразного состояния.\n2. Добавить яйца, взбить.\n3. Добавить муку с разрыхлителем, перемешать.\n4. Добавить изюм и ваниль.\n5. Выложить в форму для кекса.\n6. Выпекать при 180°C 45-50 минут.',
+                    category: 'Десерт',
+                    time: 55
+                },
+                'блины': {
+                    ingredients: 'Мука, молоко, яйца, сахар, соль, растительное масло, разрыхлитель',
+                    instructions: '1. Смешать муку, сахар, соль и разрыхлитель.\n2. Влить молоко и яйца, перемешать до однородности.\n3. Добавить растительное масло.\n4. Выпекать блины на разогретой сковороде.\n5. Подавать со сметаной или вареньем.',
+                    category: 'Завтрак',
+                    time: 25
+                },
+                'оладьи': {
+                    ingredients: 'Мука, кефир, яйца, сахар, соль, разрыхлитель, растительное масло',
+                    instructions: '1. Смешать кефир с яйцами, сахаром и солью.\n2. Добавить муку и разрыхлитель.\n3. Перемешать до однородности.\n4. Жарить оладьи на разогретой сковороде с маслом.\n5. Подавать со сметаной или вареньем.',
+                    category: 'Завтрак',
+                    time: 15
+                },
+                'хлеб белый': {
+                    ingredients: 'Мука, вода, дрожжи, соль, сахар, растительное масло',
+                    instructions: '1. В теплой воде растворить дрожжи и сахар.\n2. Добавить муку, соль и масло, замесить тесто.\n3. Оставить тесто на 1 час для подъема.\n4. Сформировать буханку, выложить на противень.\n5. Дать постоять 30 минут.\n6. Выпекать при 200°C 30-35 минут.',
+                    category: 'Завтрак',
+                    time: 60
+                },
+                'медовик': {
+                    ingredients: 'Мука, мед, сахар, яйца, масло сливочное, сметана, сода',
+                    instructions: '1. Смешать мед, сахар, яйца и масло, прогреть на водяной бане.\n2. Добавить муку с содой, замесить тесто.\n3. Разделить на 8 частей, раскатать коржи.\n4. Выпекать коржи при 180°C 5-7 минут.\n5. Промазать сметанным кремом.\n6. Оставить в холодильнике на 6-8 часов для пропитки.',
+                    category: 'Десерт',
+                    time: 70
+                },
+                'наполеон': {
+                    ingredients: 'Мука, сливочное масло, яйца, сметана, сахар, ваниль',
+                    instructions: '1. Приготовить тесто: смешать масло с мукой.\n2. Добавить яйца и сметану.\n3. Раскатать тонкие коржи, выпечь.\n4. Приготовить крем из сметаны, сахара и ванили.\n5. Промазать коржи кремом.\n6. Оставить для пропитки на 6-8 часов.',
+                    category: 'Десерт',
+                    time: 70
+                },
+
+                // === ДЕСЕРТЫ ===
+                'брауни': {
+                    ingredients: 'Темный шоколад, сливочное масло, яйца, сахар, мука, какао-порошок, соль, ваниль',
+                    instructions: '1. Растопить шоколад с маслом на водяной бане.\n2. В отдельной миске взбить яйца с сахаром до пышности.\n3. Смешать растопленный шоколад с яичной смесью.\n4. Добавить муку, какао, соль и ваниль, аккуратно перемешать.\n5. Вылить в форму для выпечки (20x20 см).\n6. Выпекать при 180°C 25-30 минут.\n7. Дать полностью остыть перед нарезкой.',
+                    category: 'Десерт',
+                    time: 40
+                },
+                'панна котта': {
+                    ingredients: 'Сливки 33%, сахар, желатин, ваниль, свежие ягоды, сахарная пудра',
+                    instructions: '1. Замочить желатин в холодной воде.\n2. Нагреть сливки с сахаром и ванилью до растворения сахара.\n3. Добавить набухший желатин, перемешать до растворения.\n4. Разлить по формочкам и охладить 4-6 часов.\n5. При подаче перевернуть на тарелку.\n6. Украсить свежими ягодами и сахарной пудрой.',
+                    category: 'Десерт',
+                    time: 25
+                },
+                'крем-брюле': {
+                    ingredients: 'Сливки 33%, сахар, яичные желтки, ваниль',
+                    instructions: '1. В сотейнике нагреть сливки с половиной сахара и ванилью до горячего состояния.\n2. Взбить яичные желтки с оставшимся сахаром.\n3. Постепенно влить горячие сливки в яичную смесь, постоянно помешивая.\n4. Разлить по формочкам и поставить в холодильник на 4 часа.\n5. Посыпать сахаром и карамелизировать с помощью горелки или под грилем.\n6. Подавать охлажденным.',
+                    category: 'Десерт',
+                    time: 30
+                },
+                'тирамису': {
+                    ingredients: 'Маскарпоне, савоярди, яйца, сахар, кофе, какао-порошок',
+                    instructions: '1. Заварить крепкий кофе и остудить.\n2. Взбить желтки с сахаром.\n3. Добавить маскарпоне и взбить до однородности.\n4. Взбить белки в крепкую пену, аккуратно вмешать в массу.\n5. Обмакнуть савоярди в кофе и выложить в форму.\n6. Выложить крем, повторить слои.\n7. Посыпать какао, охладить 4-6 часов.',
+                    category: 'Десерт',
+                    time: 30
+                },
+                'чизкейк': {
+                    ingredients: 'Печенье, сливочное масло, сливочный сыр, сахар, яйца, ваниль',
+                    instructions: '1. Измельчить печенье, смешать с маслом и утрамбовать в форму.\n2. Взбить сливочный сыр с сахаром и ванилью.\n3. Добавить яйца, взбить до однородности.\n4. Вылить начинку в форму.\n5. Выпекать на водяной бане при 160°C 1 час.\n6. Охладить и убрать в холодильник на 4-6 часов.',
+                    category: 'Десерт',
+                    time: 60
+                },
+                'мусс шоколадный': {
+                    ingredients: 'Шоколад, яйца, сахар, сливки',
+                    instructions: '1. Растопить шоколад на водяной бане.\n2. Взбить желтки с сахаром.\n3. Смешать шоколад с желтками.\n4. Взбить белки и сливки отдельно.\n5. Аккуратно вмешать белки и сливки в шоколадную массу.\n6. Разлить по бокалам, охладить 2-3 часа.',
+                    category: 'Десерт',
+                    time: 25
+                },
+
+                // === ЗАВТРАКИ ===
+                'омлет': {
+                    ingredients: 'Яйца, молоко, сливочное масло, соль, перец, зелень',
+                    instructions: '1. Взбить яйца с молоком, солью и перцем до однородности.\n2. Разогреть сковороду с маслом на среднем огне.\n3. Вылить яичную смесь и жарить 2-3 минуты до схватывания.\n4. Сложить омлет пополам лопаткой.\n5. Подавать горячим, посыпав свежей зеленью.',
+                    category: 'Завтрак',
+                    time: 10
+                },
+                'яичница глазунья': {
+                    ingredients: 'Яйца, соль, перец, растительное масло',
+                    instructions: '1. Разогреть сковороду с маслом.\n2. Аккуратно разбить яйца, не повредив желток.\n3. Жарить на среднем огне 2-3 минуты.\n4. Посолить, поперчить по вкусу.\n5. Подавать с хлебом.',
+                    category: 'Завтрак',
+                    time: 5
+                },
+                'яйца пашот': {
+                    ingredients: 'Яйца, уксус, соль, перец',
+                    instructions: '1. В кастрюле вскипятить воду с уксусом.\n2. Сделать воронку и аккуратно влить яйцо.\n3. Варить 3-4 минуты.\n4. Достать шумовкой.\n5. Подавать на тосте, посолить, поперчить.',
+                    category: 'Завтрак',
+                    time: 8
+                },
+                'каша овсяная': {
+                    ingredients: 'Овсяные хлопья, молоко/вода, соль, сахар, масло сливочное',
+                    instructions: '1. Довести молоко или воду до кипения.\n2. Добавить овсяные хлопья и соль.\n3. Варить 5-7 минут, помешивая.\n4. Добавить сахар и масло по вкусу.\n5. Подавать горячим.',
+                    category: 'Завтрак',
+                    time: 10
+                },
+                'каша гречневая': {
+                    ingredients: 'Гречка, вода, соль, сливочное масло',
+                    instructions: '1. Промыть гречку.\n2. Залить водой в пропорции 1:2.\n3. Добавить соль.\n4. Варить 15 минут до готовности.\n5. Добавить масло.',
+                    category: 'Завтрак',
+                    time: 20
+                },
+                'сырники': {
+                    ingredients: 'Творог, яйца, мука, сахар, соль, растительное масло',
+                    instructions: '1. Смешать творог, яйца, муку, сахар и соль.\n2. Сформировать сырники.\n3. Обжарить на масле с двух сторон до золотистого цвета.\n4. Подавать со сметаной.',
+                    category: 'Завтрак',
+                    time: 20
+                },
+                'гренки': {
+                    ingredients: 'Хлеб, яйца, молоко, соль, перец, растительное масло',
+                    instructions: '1. Взбить яйца с молоком, солью и перцем.\n2. Обмакнуть ломтики хлеба в смесь.\n3. Обжарить на масле с двух сторон до золотистости.\n4. Подавать горячими.',
+                    category: 'Завтрак',
+                    time: 10
+                },
+                'тосты с авокадо': {
+                    ingredients: 'Хлеб, авокадо, лимон, соль, перец, оливковое масло',
+                    instructions: '1. Поджарить хлеб в тостере.\n2. Размять авокадо вилкой.\n3. Добавить лимон, соль, перец и масло.\n4. Намазать на тосты.\n5. Подавать сразу.',
+                    category: 'Завтрак',
+                    time: 10
+                },
+                'скрэмбл': {
+                    ingredients: 'Яйца, молоко, сливочное масло, соль, перец, зелень',
+                    instructions: '1. Взбить яйца с молоком, солью и перцем.\n2. Растопить масло на сковороде.\n3. Вылить яичную смесь и постоянно помешивать.\n4. Готовить до кремообразной консистенции.\n5. Подавать с зеленью.',
+                    category: 'Завтрак',
+                    time: 7
+                },
+                'фриттатта': {
+                    ingredients: 'Яйца, картофель, лук, перец, помидоры, сыр, соль, перец',
+                    instructions: '1. Обжарить картофель, лук и перец.\n2. Добавить помидоры.\n3. Залить взбитыми яйцами.\n4. Посыпать сыром.\n5. Готовить под крышкой 5-7 минут.',
+                    category: 'Завтрак',
+                    time: 15
+                },
+
+                // === ПИЦЦА ===
+                'пицца': {
+                    ingredients: 'Мука, вода, дрожжи, оливковое масло, соль, сахар, томатный соус, сыр моцарелла, колбаса/пепперони, грибы, оливки, орегано',
+                    instructions: '1. В теплой воде растворить дрожжи и сахар, оставить на 10 минут.\n2. Добавить муку, соль и оливковое масло, замесить тесто.\n3. Оставить тесто в теплом месте на 1 час для подъема.\n4. Раскатать тесто в круглую лепешку толщиной 0.5 см.\n5. Смазать томатным соусом.\n6. Выложить начинку: сыр, колбасу, грибы, оливки.\n7. Посыпать орегано и солью.\n8. Выпекать при 220°C 12-15 минут до золотистого цвета.',
+                    category: 'Обед',
+                    time: 40
+                },
+                'пицца маргарита': {
+                    ingredients: 'Мука, вода, дрожжи, оливковое масло, соль, томатный соус, сыр моцарелла, базилик',
+                    instructions: '1. Приготовить тесто как для обычной пиццы.\n2. Смазать томатным соусом.\n3. Выложить моцареллу.\n4. Украсить листьями базилика.\n5. Выпекать при 220°C 12-15 минут.',
+                    category: 'Обед',
+                    time: 35
+                },
+                'пицца пепперони': {
+                    ingredients: 'Тесто для пиццы, томатный соус, моцарелла, пепперони, орегано',
+                    instructions: '1. Раскатать тесто.\n2. Смазать томатным соусом.\n3. Выложить моцареллу и пепперони.\n4. Посыпать орегано.\n5. Выпекать при 220°C 12-15 минут.',
+                    category: 'Обед',
+                    time: 35
+                },
+
+                // === НАПИТКИ ===
+                'кофе эспрессо': {
+                    ingredients: 'Кофе молотый, вода',
+                    instructions: '1. Смолоть зерна в мелкую пыль.\n2. Утрамбовать в холдер.\n3. Прогнать горячую воду (90°C) под давлением 9 бар.\n4. Наслаждаться свежим эспрессо.',
+                    category: 'Завтрак',
+                    time: 5
+                },
+                'капучино': {
+                    ingredients: 'Эспрессо, молоко',
+                    instructions: '1. Приготовить эспрессо.\n2. Вспенить молоко до кремообразной текстуры.\n3. Влить молоко в эспрессо.\n4. Украсить пенкой.',
+                    category: 'Завтрак',
+                    time: 7
+                },
+                'латте': {
+                    ingredients: 'Эспрессо, молоко',
+                    instructions: '1. Приготовить эспрессо.\n2. Нагреть и вспенить молоко.\n3. Влить молоко в эспрессо.\n4. Подавать в высоком бокале.',
+                    category: 'Завтрак',
+                    time: 7
+                },
+                'какао': {
+                    ingredients: 'Какао-порошок, молоко, сахар',
+                    instructions: '1. Смешать какао с небольшим количеством теплого молока.\n2. Добавить оставшееся молоко и сахар.\n3. Нагреть, помешивая.\n4. Подавать горячим.',
+                    category: 'Завтрак',
+                    time: 7
+                },
+                'лимонад': {
+                    ingredients: 'Лимон, сахар, вода, мята',
+                    instructions: '1. Выжать сок лимона.\n2. Добавить сахар и мяту.\n3. Залить водой.\n4. Добавить лед по желанию.',
+                    category: 'Напиток',
+                    time: 5
+                },
+                'компот': {
+                    ingredients: 'Ягоды/фрукты, сахар, вода',
+                    instructions: '1. Вскипятить воду.\n2. Добавить сахар и ягоды.\n3. Варить 10-15 минут.\n4. Охладить.',
+                    category: 'Напиток',
+                    time: 20
+                },
+                'морс': {
+                    ingredients: 'Ягоды, сахар, вода',
+                    instructions: '1. Размять ягоды.\n2. Залить горячей водой.\n3. Добавить сахар.\n4. Настоять 1 час.\n5. Подавать охлажденным.',
+                    category: 'Напиток',
+                    time: 15
+                },
+                'кисель': {
+                    ingredients: 'Ягоды, крахмал, сахар, вода',
+                    instructions: '1. Отжать сок из ягод.\n2. В воду добавить сахар и крахмал.\n3. Довести до кипения.\n4. Добавить сок, перемешать.\n5. Подавать горячим или охлажденным.',
+                    category: 'Десерт',
+                    time: 15
+                }
+            };
+
+            // ========================================
+            //   УМНЫЙ ПОИСК
+            // ========================================
+            function findRecipe(query) {
+                const normalized = query.toLowerCase().trim();
+                if (!normalized) return null;
+
+                // Точное совпадение
+                for (const [key, recipe] of Object.entries(RECIPE_DB)) {
+                    if (normalized === key || key === normalized) {
+                        return { ...recipe };
+                    }
+                }
+
+                // Частичное совпадение
+                let bestMatch = null;
+                let bestScore = 0;
+
+                for (const [key, recipe] of Object.entries(RECIPE_DB)) {
+                    let score = 0;
+                    const keywords = normalized.split(' ');
+                    for (const word of keywords) {
+                        if (word.length < 2) continue;
+                        if (key.includes(word)) score += 5;
+                        if (key.startsWith(word)) score += 3;
+                        if (recipe.category && recipe.category.toLowerCase().includes(word)) score += 2;
+                    }
+                    // Бонус за длину совпадения
+                    if (normalized.length > 3 && key.includes(normalized.slice(0, 4))) score += 10;
+                    if (key.includes(normalized)) score += 20;
+
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestMatch = { ...recipe };
+                    }
+                }
+
+                if (bestScore > 3) {
+                    return bestMatch;
+                }
+
+                // Если ничего не найдено — возвращаем null
+                return null;
+            }
+
+            // ========================================
+            //   ГЕНЕРАТОР SVG
+            // ========================================
+            function generateRecipeSVG(name) {
+                let hash = 0;
+                for (let i = 0; i < name.length; i++) {
+                    hash = (hash << 5) - hash + name.charCodeAt(i);
+                    hash = hash & hash;
+                }
+                const hue1 = Math.abs(hash % 360);
+                const hue2 = (hue1 + 40 + Math.abs(hash % 60)) % 360;
+                const color1 = `hsl(${hue1}, 35%, 65%)`;
+                const color2 = `hsl(${hue2}, 30%, 75%)`;
+                const color3 = `hsl(${(hue1 + 20) % 360}, 40%, 55%)`;
+                const bgColor = `hsl(${hue1}, 25%, 80%)`;
+
+                const shapes = [
+                    `<circle cx="300" cy="200" r="100" fill="${color1}" opacity="0.7"/>`,
+                    `<circle cx="250" cy="180" r="60" fill="${color2}" opacity="0.5"/>`,
+                    `<circle cx="350" cy="220" r="70" fill="${color2}" opacity="0.5"/>`,
+                    `<rect x="220" y="160" width="160" height="80" rx="20" fill="${color3}" opacity="0.4"/>`,
+                    `<ellipse cx="300" cy="200" rx="120" ry="80" fill="${color1}" opacity="0.6"/>`,
+                    `<polygon points="300,120 380,240 220,240" fill="${color2}" opacity="0.4"/>`,
+                    `<polygon points="300,140 340,220 260,220" fill="${color3}" opacity="0.5"/>`,
+                    `<ellipse cx="300" cy="200" rx="80" ry="60" fill="${color1}" opacity="0.7"/>`,
+                    `<rect x="250" y="170" width="100" height="60" rx="10" fill="${color2}" opacity="0.5"/>`,
+                    `<circle cx="300" cy="200" r="90" fill="${color3}" opacity="0.4"/>`,
+                ];
+                const selectedShapes = [];
+                const startIndex = Math.abs(hash % shapes.length);
+                const count = 3 + Math.abs(hash % 3);
+                for (let i = 0; i < count; i++) {
+                    const idx = (startIndex + i * 3) % shapes.length;
+                    selectedShapes.push(shapes[idx]);
+                }
+                const decor = [
+                    `<circle cx="180" cy="130" r="8" fill="${color3}" opacity="0.3"/>`,
+                    `<circle cx="420" cy="270" r="12" fill="${color2}" opacity="0.3"/>`,
+                    `<circle cx="200" cy="280" r="6" fill="${color1}" opacity="0.3"/>`,
+                    `<circle cx="400" cy="120" r="10" fill="${color3}" opacity="0.3"/>`,
+                    `<rect x="160" y="260" width="280" height="4" rx="2" fill="${color2}" opacity="0.2"/>`,
+                    `<rect x="200" y="140" width="200" height="4" rx="2" fill="${color3}" opacity="0.2"/>`,
+                ];
+                const selectedDecor = [];
+                for (let i = 0; i < 2 + Math.abs(hash % 3); i++) {
+                    const idx = (startIndex + i * 5) % decor.length;
+                    selectedDecor.push(decor[idx]);
+                }
+                return `<svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="600" height="400" fill="${bgColor}"/>
+                    ${selectedShapes.join('')}
+                    ${selectedDecor.join('')}
+                    <text x="300" y="350" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" fill="${color3}" opacity="0.5" letter-spacing="4" font-weight="300">${name.charAt(0).toUpperCase()}</text>
+                </svg>`;
+            }
+
+            // ========================================
+            //   API ВЫЗОВЫ
+            // ========================================
+            const API_URL = '/api/recipes';
+
+            async function fetchRecipes() {
+                try {
+                    const resp = await fetch(API_URL);
+                    if (!resp.ok) throw new Error('Ошибка загрузки рецептов');
+                    return await resp.json();
+                } catch (err) {
+                    showNotification('Не удалось загрузить рецепты: ' + err.message, 'error');
+                    throw err;
+                }
+            }
+
+            async function createRecipe(data) {
+                try {
+                    const resp = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    if (!resp.ok) throw new Error('Ошибка добавления рецепта');
+                    return await resp.json();
+                } catch (err) {
+                    showNotification('Не удалось добавить рецепт: ' + err.message, 'error');
+                    throw err;
+                }
+            }
+
+            async function updateRecipe(id, data) {
+                try {
+                    const resp = await fetch(`${API_URL}/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    if (!resp.ok) throw new Error('Ошибка обновления рецепта');
+                    return await resp.json();
+                } catch (err) {
+                    showNotification('Не удалось обновить рецепт: ' + err.message, 'error');
+                    throw err;
+                }
+            }
+
+            async function deleteRecipe(id) {
+                try {
+                    const resp = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+                    if (!resp.ok) throw new Error('Ошибка удаления рецепта');
+                    return await resp.json();
+                } catch (err) {
+                    showNotification('Не удалось удалить рецепт: ' + err.message, 'error');
+                    throw err;
+                }
+            }
+
+            // ========================================
+            //   УПРАВЛЕНИЕ СОСТОЯНИЕМ
+            // ========================================
+            let recipes = [];
+            let editingId = null;
+            let viewingId = null;
+            let currentTheme = 'light';
+            let renderTimeout = null;
+            let isGenerating = false;
+
+            const grid = document.getElementById('recipeGrid');
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const addBtn = document.getElementById('addRecipeBtn');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const form = document.getElementById('recipeForm');
+            const nameInput = document.getElementById('recipeName');
+            const ingredientsInput = document.getElementById('recipeIngredients');
+            const instructionsInput = document.getElementById('recipeInstructions');
+            const categorySelect = document.getElementById('recipeCategory');
+            const timeInput = document.getElementById('recipeTime');
+            const cancelBtn = document.getElementById('cancelModalBtn');
+            const generateBtn = document.getElementById('generateBtn');
+            const viewModalOverlay = document.getElementById('viewModalOverlay');
+            const viewImage = document.getElementById('viewImage');
+            const viewTitle = document.getElementById('viewTitle');
+            const viewMeta = document.getElementById('viewMeta');
+            const viewIngredients = document.getElementById('viewIngredients');
+            const viewInstructions = document.getElementById('viewInstructions');
+            const closeViewBtn = document.getElementById('closeViewBtn');
+            const editFromViewBtn = document.getElementById('editFromViewBtn');
+            const themeToggle = document.getElementById('themeToggle');
+
+            function showNotification(message, type = 'info') {
+                const el = document.getElementById('notification');
+                el.textContent = message;
+                el.className = 'notification show ' + type;
+                clearTimeout(el._timeout);
+                el._timeout = setTimeout(() => {
+                    el.classList.remove('show');
+                }, 3500);
+            }
+
+            // ------ тема ------
+            function setTheme(theme) {
+                currentTheme = theme;
+                document.body.classList.toggle('dark', theme === 'dark');
+                themeToggle.textContent = theme === 'dark' ? 'Светлая тема' : 'Тёмная тема';
+                localStorage.setItem('recipeTheme', theme);
+            }
+
+            function loadTheme() {
+                const saved = localStorage.getItem('recipeTheme');
+                if (saved === 'dark') setTheme('dark');
+                else setTheme('light');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                setTheme(currentTheme === 'light' ? 'dark' : 'light');
+            });
+
+            // ------ рендер ------
+            function render() {
+                if (renderTimeout) {
+                    cancelAnimationFrame(renderTimeout);
+                    renderTimeout = null;
+                }
+
+                renderTimeout = requestAnimationFrame(() => {
+                    const searchTerm = searchInput.value.toLowerCase().trim();
+                    const category = categoryFilter.value;
+
+                    let filtered = recipes.filter(recipe => {
+                        const matchName = recipe.name.toLowerCase().includes(searchTerm);
+                        const matchCategory = category === 'all' || recipe.category === category;
+                        return matchName && matchCategory;
+                    });
+
+                    if (filtered.length === 0) {
+                        grid.innerHTML =
+                            `<div class="empty-state">Нет рецептов, соответствующих фильтрам</div>`;
+                        return;
+                    }
+
+                    let html = '';
+                    for (let i = 0; i < filtered.length; i++) {
+                        const recipe = filtered[i];
+                        const shortDesc = recipe.ingredients.length > 50 ? recipe.ingredients.slice(0, 50) + '…' : recipe
+                            .ingredients;
+                        const imageHtml = recipe.image || `<span class="fallback">Фото блюда</span>`;
+                        html += `
+                            <div class="recipe-card" data-id="${recipe.id}" data-view="${recipe.id}">
+                                <div class="card-image">${imageHtml}</div>
+                                <div class="card-title">${recipe.name}</div>
+                                <div class="card-meta">
+                                    <span class="card-category">${recipe.category}</span>
+                                    <span class="card-time">⏱ ${recipe.time} мин</span>
+                                </div>
+                                <div class="card-desc">${shortDesc}</div>
+                                <div class="card-actions">
+                                    <button class="btn btn-edit" data-action="edit" data-id="${recipe.id}">Редактировать</button>
+                                    <button class="btn btn-danger" data-action="delete" data-id="${recipe.id}">Удалить</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    grid.innerHTML = html;
+                    renderTimeout = null;
+                });
+            }
+
+            // ------ загрузка с сервера ------
+            async function loadRecipes() {
+                try {
+                    recipes = await fetchRecipes();
+                    render();
+                } catch (err) {}
+            }
+
+            // ------ просмотр рецепта ------
+            function openViewModal(id) {
+                const recipe = recipes.find(r => r.id === id);
+                if (!recipe) return;
+
+                viewingId = id;
+                const imageHtml = recipe.image || `<span class="fallback">Фото блюда</span>`;
+                viewImage.innerHTML = imageHtml;
+                viewTitle.textContent = recipe.name;
+                viewMeta.innerHTML = `
+                        <span>${recipe.category}</span>
+                        <span>⏱ ${recipe.time} мин</span>
+                    `;
+
+                const ingredientsList = recipe.ingredients.split(',').map(i => i.trim());
+                viewIngredients.innerHTML = `<ul>${ingredientsList.map(i => `<li>${i}</li>`).join('')}</ul>`;
+
+                const steps = recipe.instructions.split('\n').filter(s => s.trim());
+                viewInstructions.innerHTML = `<ul>${steps.map(s => `<li>${s.trim()}</li>`).join('')}</ul>`;
+
+                viewModalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeViewModal() {
+                viewModalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+                viewingId = null;
+            }
+
+            // ------ модальное окно редактирования ------
+            function openModal(recipe = null) {
+                if (recipe) {
+                    editingId = recipe.id;
+                    modalTitle.textContent = 'Редактировать рецепт';
+                    nameInput.value = recipe.name;
+                    ingredientsInput.value = recipe.ingredients;
+                    instructionsInput.value = recipe.instructions;
+                    categorySelect.value = recipe.category;
+                    timeInput.value = recipe.time;
+                } else {
+                    editingId = null;
+                    modalTitle.textContent = 'Новый рецепт';
+                    form.reset();
+                    categorySelect.value = 'Обед';
+                    timeInput.value = 30;
+                    ingredientsInput.value = '';
+                    instructionsInput.value = '';
+                    nameInput.value = '';
+                }
+                modalOverlay.classList.add('active');
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                editingId = null;
+                isGenerating = false;
+                generateBtn.disabled = false;
+                generateBtn.textContent = '✨ Сгенерировать';
+            }
+
+            // ------ ГЕНЕРАЦИЯ РЕЦЕПТА (ЛОКАЛЬНАЯ БАЗА) ------
+            async function handleGenerate() {
+                const dishName = nameInput.value.trim();
+                if (!dishName) {
+                    showNotification('Сначала введите название блюда', 'error');
+                    return;
+                }
+
+                if (isGenerating) return;
+
+                isGenerating = true;
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<span class="generating-indicator"></span> Поиск рецепта...';
+
+                // Имитация задержки для UX
+                setTimeout(() => {
+                    const result = findRecipe(dishName);
+
+                    if (result) {
+                        ingredientsInput.value = result.ingredients;
+                        instructionsInput.value = result.instructions;
+                        categorySelect.value = result.category;
+                        timeInput.value = result.time;
+
+                        generateBtn.style.background = '#6aaa50';
+                        setTimeout(() => { generateBtn.style.background = ''; }, 1500);
+                        showNotification('✅ Рецепт найден!', 'success');
+                    } else {
+                        showNotification('❌ Рецепт для "' + dishName + '" не найден. Попробуйте другое блюдо.', 'error');
+                        // Не очищаем поля, чтобы пользователь мог ввести другое название
+                    }
+
+                    isGenerating = false;
+                    generateBtn.disabled = false;
+                    generateBtn.textContent = '✨ Сгенерировать';
+                }, 300);
+            }
+
+            // ------ CRUD через API ------
+            async function handleFormSubmit(e) {
+                e.preventDefault();
+
+                const name = nameInput.value.trim();
+                const ingredients = ingredientsInput.value.trim();
+                const instructions = instructionsInput.value.trim();
+                const category = categorySelect.value;
+                const time = parseInt(timeInput.value, 10);
+
+                if (!name || !ingredients || !instructions || !time || time < 1) {
+                    showNotification('Заполните все поля корректно.', 'error');
+                    return;
+                }
+
+                const data = { name, ingredients, instructions, category, time };
+
+                try {
+                    if (editingId !== null) {
+                        await updateRecipe(editingId, data);
+                        showNotification('Рецепт обновлён!', 'success');
+                    } else {
+                        const newImage = generateRecipeSVG(name);
+                        data.image = newImage;
+                        await createRecipe(data);
+                        showNotification('Рецепт добавлен!', 'success');
+                    }
+                    await loadRecipes();
+                    closeModal();
+                } catch (err) {}
+            }
+
+            async function deleteRecipeHandler(id) {
+                const recipe = recipes.find(r => r.id === id);
+                if (!recipe) return;
+                if (confirm(`Удалить рецепт «${recipe.name}»?`)) {
+                    try {
+                        await deleteRecipe(id);
+                        showNotification('Рецепт удалён', 'success');
+                        await loadRecipes();
+                        if (viewingId === id) closeViewModal();
+                    } catch (err) {}
+                }
+            }
+
+            function handleCardAction(e) {
+                const target = e.target.closest('button');
+                if (!target) return;
+                const action = target.dataset.action;
+                const id = Number(target.dataset.id);
+                if (!id || !action) return;
+
+                if (action === 'delete') {
+                    deleteRecipeHandler(id);
+                } else if (action === 'edit') {
+                    const recipe = recipes.find(r => r.id === id);
+                    if (recipe) {
+                        closeViewModal();
+                        openModal(recipe);
+                    }
+                }
+            }
+
+            function handleCardClick(e) {
+                const card = e.target.closest('.recipe-card');
+                if (!card) return;
+                if (e.target.closest('.card-actions')) return;
+
+                const id = Number(card.dataset.id);
+                if (id) openViewModal(id);
+            }
+
+            // ------ инициализация ------
+            async function init() {
+                loadTheme();
+                await loadRecipes();
+
+                searchInput.addEventListener('input', render);
+                categoryFilter.addEventListener('change', render);
+
+                addBtn.addEventListener('click', () => openModal(null));
+                cancelBtn.addEventListener('click', closeModal);
+                modalOverlay.addEventListener('click', (e) => {
+                    if (e.target === modalOverlay) closeModal();
+                });
+
+                generateBtn.addEventListener('click', handleGenerate);
+
+                closeViewBtn.addEventListener('click', closeViewModal);
+                viewModalOverlay.addEventListener('click', (e) => {
+                    if (e.target === viewModalOverlay) closeViewModal();
+                });
+
+                editFromViewBtn.addEventListener('click', () => {
+                    if (viewingId) {
+                        const recipe = recipes.find(r => r.id === viewingId);
+                        if (recipe) {
+                            closeViewModal();
+                            openModal(recipe);
+                        }
+                    }
+                });
+
+                form.addEventListener('submit', handleFormSubmit);
+                grid.addEventListener('click', handleCardAction);
+                grid.addEventListener('click', handleCardClick);
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        if (viewModalOverlay.classList.contains('active')) closeViewModal();
+                        if (modalOverlay.classList.contains('active')) closeModal();
+                    }
+                });
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>
