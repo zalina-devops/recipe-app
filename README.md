@@ -253,7 +253,9 @@ recipe-app/
 
 По вопросам и предложениям:
 
-**z_cesi@outlook.com**
+<a href="mailto:z_cesi@outlook.com">
+<img src="https://img.shields.io/badge/Email-0078D4?style=for-the-badge&logo=microsoftoutlook&logoColor=white"/>
+</a>
 
 ---
 
